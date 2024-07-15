@@ -102,6 +102,7 @@
                 <a href="./index.html">首页</a>
                 <a href="./基于HTML的物理仿真演示平台.pdf">实验介绍</a>
                 <a href="https://github.com/d1swen/Physics" target="_blank">开源地址</a>
+                <a href="#" target="_blank" onclick="showAlert()">联系我们</a>
             </nav>
         </header>
         <div class="hero container">
@@ -196,50 +197,11 @@
     </div>
 </body>
 
-<!-- <script>
-    // 检测用户是否在手机上的函数
-    function isMobileDevice() {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+<script>
+    function showAlert() {
+        alert('telphone: 18754822869');
     }
-
-    // 替换页面背景并显示提示信息的函数
-    function showMobileMessage() {
-        // 创建一个新的div元素作为提示信息
-        var messageDiv = document.createElement('div');
-        messageDiv.id = 'mobile-message';
-        messageDiv.style.position = 'fixed'; // 固定定位
-        messageDiv.style.top = 0;
-        messageDiv.style.left = 0;
-        messageDiv.style.width = '100%';
-        messageDiv.style.height = '100%';
-        messageDiv.style.zIndex = 1000; // 确保提示信息在最上层
-        messageDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'; // 半透明黑色背景
-        messageDiv.style.display = 'flex';
-        messageDiv.style.justifyContent = 'center';
-        messageDiv.style.alignItems = 'center';
-        messageDiv.style.color = 'white';
-        messageDiv.style.fontSize = '24px';
-
-        // 设置提示信息的内容
-        messageDiv.innerHTML = '<p>请使用电脑访问本网站！</p>';
-
-        // 将提示信息添加到body元素中
-        document.body.appendChild(messageDiv);
-
-        // 阻止页面滚动
-        document.body.style.overflow = 'hidden';
-    }
-
-    // 检查用户是否在手机上，并替换页面背景
-    function checkDeviceAndReplaceBackground() {
-        if (isMobileDevice()) {
-            showMobileMessage();
-        }
-    }
-
-    // 页面加载完成后执行检查
-    window.onload = checkDeviceAndReplaceBackground;
-</script> -->
+</script>
 
 
 </html>
