@@ -1,240 +1,74 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>天体仿真</title>
-    <link rel="icon" href="../assets/icon.svg" type="image/x-icon" />
-    <style>
-        body {
-            display: flex;
-            height: 100vh;
-            margin: 0;
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-        }
-        #container {
-            display: flex;
-            width: 100%;
-        }
-        #controls {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-            width: 250px;
-            background-color: #222;
-            border-right: 1px solid #fff;
-        }
-        #controls label, #controls input, #controls button {
-            margin-bottom: 10px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        #controls label {
-            font-weight: bold;
-        }
-        #controls input, #controls button {
-            padding: 8px;
-            font-size: 14px;
-        }
-        #controls button {
-            background-color: #444;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        #controls button:hover {
-            background-color: #555;
-        }
-        #canvas-container {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        canvas {
-            background-color: #111;
-            border: 1px solid #fff;
-        }
-        .info {
-            margin-top: 20px;
-            text-align: left;
-        }
-        .back-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            padding: 10px 20px;
-            border: none;
-            background-color: #01579b;
-            color: #fff;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .back-button:hover {
-            background-color: #0277bd;
-        }
-    </style>
+    <title>轨道模拟</title>
+    <link type="text/css" href="../css/orcss/master.css" rel="stylesheet"/>
+    <link type="text/css" href="../css/orcss/jquery.css" rel="stylesheet"/>
 </head>
 <body>
-    <button class="back-button" onClick="window.location.href='../index.html'">返回首页</button>
-    <div id="container">
-        <div id="controls">
-            <label for="mass">中心质量 (单位: kg):</label>
-            <input type="number" id="mass" value="100" step="10">
-            <label for="speed">初速度 (单位: km/s):</label>
-            <input type="number" id="speed" value="0.7" step="0.1">
-            <button onclick="resetSimulation()">执行</button>
-            <div class="info" id="info"></div>
+    <button class="back-button" onClick="window.location.href='box.html'">返回首页</button>
+    <div id="TITLE_HEADER">
+        <span>HTML5 轨道模拟</span>
+    </div>
+
+    <div id="CONTAINER">
+        <div id="CONTROLS">
+            <div class="CONTROL_HEADER">
+                <span class="CONTROL_LABEL">环境参数</span>
+            </div>
+            <div class="INPUT_CONTROL_CONTAINER">
+                <span class="INPUT_LABEL">地球质量:</span><br/>
+                <span class="INPUT_VALUE" id="EARTH_MASS_LBL"></span>
+                <span class="INPUT_VALUE"> * 10e10</span><br/>
+                <div class="INPUT_SLIDER" id="EARTH_MASS_INPUT"></div>
+            </div>
+            <div class="INPUT_CONTROL_CONTAINER">
+                <span class="INPUT_LABEL">计算时间步长:</span><br/>
+                <span class="INPUT_VALUE" id="TIME_STEP_LBL"></span>
+                <div class="INPUT_SLIDER" id="TIME_STEP_INPUT"></div>
+            </div>
+            <div class="CONTROL_HEADER">
+                <span class="CONTROL_LABEL">下一个卫星参数</span>
+            </div>
+            <div class="INPUT_CONTROL_CONTAINER">
+                <span class="INPUT_LABEL">卫星质量:</span><br/>
+                <span class="INPUT_VALUE" id="SAT_MASS_LBL"></span><br/>
+                <div class="INPUT_SLIDER" id="SAT_MASS_INPUT"></div>
+            </div>
+            <div class="INPUT_CONTROL_CONTAINER">
+                <span class="INPUT_LABEL">初始 X 速度:</span><br/>
+                <span class="INPUT_VALUE" id="INIT_X_LBL"></span><br/>
+                <div class="INPUT_SLIDER" id="INIT_X_INPUT"></div>
+            </div>
+            <div class="INPUT_CONTROL_CONTAINER">
+                <span class="INPUT_LABEL">初始 Y 速度:</span><br/>
+                <span class="INPUT_VALUE" id="INIT_Y_LBL"></span><br/>
+                <div class="INPUT_SLIDER" id="INIT_Y_INPUT"></div>
+            </div>
+            <div class="INPUT_CONTROL_CONTAINER">
+                <span class="CONTROL_LABEL">重置卫星</span><br/>
+                <input id="RESET_INPUT" class="INPUT_CONTROL" type="button" value="重置"/> 
+            </div>
+            <div class="INFO_SECTION">
+                <h3>实验简介与操作指南</h3>
+                <p>本实验模拟了轨道运动。您可以调整地球质量、时间步长和卫星的初始速度，点击“重置”按钮重置所有设置。</p>
+                <h4>操作步骤：</h4>
+                <ol>
+                    <li>调整地球质量和计算时间步长。</li>
+                    <li>设置卫星的质量和初始速度。</li>
+                    <li>点击“重置”按钮以重新开始实验。</li>
+                </ol>
+            </div>
         </div>
-        <div id="canvas-container">
-            <canvas id="canvas" width="800" height="800"></canvas>
+
+        <div id="CANVAS">
+            <canvas id="CANVAS_BOARD" width="620px" height="580px"></canvas>
         </div>
     </div>
-    <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
 
-        let centerX = canvas.width / 2;
-        let centerY = canvas.height / 2;
-
-        let mass = parseFloat(document.getElementById('mass').value);
-        let speed = parseFloat(document.getElementById('speed').value);
-        let G = 1; // 仿真用的引力常数
-
-        let orbitingBody = {
-            x: centerX + 100,
-            y: centerY,
-            vx: 0,
-            vy: -speed,
-            mass: 1,
-            radius: 5,
-            trail: []
-        };
-
-        function resetSimulation() {
-            mass = parseFloat(document.getElementById('mass').value);
-            speed = parseFloat(document.getElementById('speed').value);
-            orbitingBody.x = centerX + 100;
-            orbitingBody.y = centerY;
-            orbitingBody.vx = 0;
-            orbitingBody.vy = -speed;
-            orbitingBody.trail = [];
-            updateInfo();
-            calculateFullOrbitPath();
-        }
-
-        function drawCenterBody() {
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, 20, 0, 2 * Math.PI);
-            ctx.fillStyle = '#FFD700';
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        function drawOrbitingBody() {
-            ctx.beginPath();
-            ctx.arc(orbitingBody.x, orbitingBody.y, orbitingBody.radius, 0, 2 * Math.PI);
-            ctx.fillStyle = '#00F';
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        function drawOrbitPath(trail) {
-            ctx.beginPath();
-            ctx.moveTo(trail[0].x, trail[0].y);
-            for (let i = 1; i < trail.length; i++) {
-                ctx.lineTo(trail[i].x, trail[i].y);
-            }
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-            ctx.stroke();
-            ctx.closePath();
-        }
-
-        function updateOrbitingBody() {
-            let dx = centerX - orbitingBody.x;
-            let dy = centerY - orbitingBody.y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            let force = (G * mass * orbitingBody.mass) / (distance * distance);
-            let ax = force * (dx / distance);
-            let ay = force * (dy / distance);
-
-            orbitingBody.vx += ax;
-            orbitingBody.vy += ay;
-            orbitingBody.x += orbitingBody.vx;
-            orbitingBody.y += orbitingBody.vy;
-
-            orbitingBody.trail.push({x: orbitingBody.x, y: orbitingBody.y});
-            if (orbitingBody.trail.length > 200) {
-                orbitingBody.trail.shift();
-            }
-        }
-
-        function updateInfo() {
-            const infoElement = document.getElementById('info');
-            infoElement.innerHTML = `
-                <p><strong>中心质量:</strong> ${mass} kg</p>
-                <p><strong>初速度:</strong> ${speed} km/s</p>
-                <p><strong>引力常数 (G):</strong> ${G}</p>
-                <p>为了保持稳定轨道，引力必须提供必要的向心力以保持轨道天体沿圆路径运动。</p>
-                <p>引力 (F) 的计算公式为: <strong>F = G * (M1 * M2) / r²</strong></p>
-                <p>圆周运动所需的向心力 (Fc) 为: <strong>Fc = (M * v²) / r</strong></p>
-                <p>对于稳定轨道: <strong>G * (M1 * M2) / r² = (M * v²) / r</strong></p>
-                <p>当速度增加时，轨道会变成椭圆形，速度越大，轨道越偏离圆形。</p>
-                <p>如果速度增加到足够大，轨道天体将会脱离轨道，不再受到中心天体的引力束缚。</p>
-            `;
-        }
-
-        function calculateFullOrbitPath() {
-            let testBody = {
-                x: orbitingBody.x,
-                y: orbitingBody.y,
-                vx: orbitingBody.vx,
-                vy: orbitingBody.vy,
-                trail: []
-            };
-
-            for (let i = 0; i < 1000; i++) {
-                let dx = centerX - testBody.x;
-                let dy = centerY - testBody.y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-                let force = (G * mass * orbitingBody.mass) / (distance * distance);
-                let ax = force * (dx / distance);
-                let ay = force * (dy / distance);
-
-                testBody.vx += ax;
-                testBody.vy += ay;
-                testBody.x += testBody.vx;
-                testBody.y += testBody.vy;
-
-                testBody.trail.push({x: testBody.x, y: testBody.y});
-            }
-
-            orbitingBody.fullTrail = testBody.trail;
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawCenterBody();
-            if (orbitingBody.fullTrail) {
-                drawOrbitPath(orbitingBody.fullTrail);
-            }
-            if (orbitingBody.trail.length > 1) {
-                drawOrbitPath(orbitingBody.trail);
-            }
-            drawOrbitingBody();
-            updateOrbitingBody();
-            requestAnimationFrame(animate);
-        }
-
-        resetSimulation();
-        animate();
-    </script>
+    <script type="text/javascript" src="../js/orjs/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/orjs/jquery2.min.js"></script>
+    <script type="text/javascript" src="../js/orjs/orbits.min.js"></script>    
 </body>
 </html>
