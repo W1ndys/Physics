@@ -9,14 +9,10 @@
   <script src="../js/lightjs/p5.dom.min.js"></script>
   <script src="../js/lightjs/shapes.js"></script>
   <script src="../js/lightjs/miscellaneous.js"></script>
-  <script src="../js/lightjs/sources.js"></script>
   <script src="../js/lightjs/optics.js"></script>
-  <script src="../js/lightjs/blocks.js"></script>
-  <script src="../js/lightjs/arc.js"></script>
   <script src="../js/lightjs/tools.js"></script>
   <script src="../js/lightjs/ray.js"></script>
-  <script src="../js/lightjs/interface.js"></script>
-  <script src="../js/lightjs/sketch.js"></script>
+  <script src="../js/lightjs/all control.js"></script>
   <link rel="icon" href="../assets/icon.svg" type="image/x-icon" />
 </head>
 
@@ -29,22 +25,17 @@
       document.getElementById('main-select').dispatchEvent(new Event('change'));
       ">✋</button>
       <select id="main-select">
-        <option value="hand"> 手 </option>
+        <option value="hand"> 控制器 </option>
         <optgroup label="光源">
           <option value="ray"> 激光 </option>
-          <option value="pointLight"> 点光源 </option>
-          <option value="beam"> 光束 </option>
         </optgroup>
         <optgroup label="薄物体">
           <option value="mirror"> 镜子 </option>
-          <option value="void"> 空 </option>
-          <option value="filter"> 滤镜 </option>
+          <option value="void"> 虚空 </option>
           <option value="lens"> 透镜 </option>
-          <option value="arc"> 弧形 </option>
         </optgroup>
         <optgroup label="块状物体">
           <option value="circle"> 圆形 </option>
-          <option value="rectblock"> 矩形 </option>
         </optgroup>
         <optgroup label="工具">
           <option value="ruler"> 尺子 </option>

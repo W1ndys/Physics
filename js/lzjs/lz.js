@@ -57,8 +57,8 @@ function drawWavePacket() {
     const barrierStartX = (canvas.width / 2) - (barrierWidth / 2) * 40;
     const barrierEndX = (canvas.width / 2) + (barrierWidth / 2) * 40;
     const x0 = canvas.width / 2 + wavePacketPosition * 40;
-    const y0 = canvas.height * 1; // 波包的基准 y 位置
-    const sigma = wavePacketWidth * 40; // 波包的宽度
+    const y0 = canvas.height * 1;
+    const sigma = wavePacketWidth * 40;
 
     let amplitude;
     const transmissionCoefficient = calculateTransmissionCoefficient();
@@ -67,17 +67,15 @@ function drawWavePacket() {
         const xPos = canvas.width / 2 + x * 40;
         amplitude = Math.exp(-((x - wavePacketPosition) ** 2) / (2 * (wavePacketWidth ** 2)));
 
-        // 处理势垒中的波函数衰减
         if (xPos >= barrierStartX && xPos <= barrierEndX) {
-            const distanceInBarrier = (xPos - barrierStartX) / 40; // 计算在势垒内的距离
+            const distanceInBarrier = (xPos - barrierStartX) / 40;
             const decayFactor = Math.exp(-2 * Math.sqrt(barrierHeight - wavePacketEnergy) * distanceInBarrier);
             amplitude *= decayFactor;
         } else if (xPos > barrierEndX) {
-            // 使用透射系数来模拟透射后的波函数，并放大
             amplitude *= transmissionCoefficient;
         }
 
-        const y = y0 - amplitude * canvas.height / 4; // 调整波包的幅度
+        const y = y0 - amplitude * canvas.height / 4;
         if (x === -10) {
             ctx.moveTo(xPos, y);
         } else {
@@ -91,11 +89,11 @@ function drawWavePacket() {
     ctx.textAlign = 'left';
     ctx.fillText('入射波', 30, 30);
 
-    if (wavePacketPosition + 10 >= barrierStartX && wavePacketPosition <= barrierEndX) {
+    if (wavePacketPosition + 10 >= barrierStartX / 40 && wavePacketPosition <= barrierEndX / 40) {
         ctx.textAlign = 'center';
         ctx.fillText('衰减波', (barrierStartX + barrierEndX) / 2, 30);
     }
-    if (wavePacketPosition + 10 >= barrierEndX) {  // 确保波包的实际位置已经穿过势垒末端
+    if (wavePacketPosition >= barrierEndX / 40) {  // 修改条件判断
         ctx.textAlign = 'right';
         ctx.fillText('透射波', canvas.width - 30, 30);
     }
