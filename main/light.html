@@ -7,17 +7,11 @@
   <link rel="stylesheet" type="text/css" href="../css/lightcss/style.css" />
   <script src="../js/lightjs/p5.min.js"></script>
   <script src="../js/lightjs/p5.dom.min.js"></script>
-  <script src="../js/lightjs/shapes.js"></script>
-  <script src="../js/lightjs/miscellaneous.js"></script>
   <script src="../js/lightjs/optics.js"></script>
-  <script src="../js/lightjs/tools.js"></script>
-  <script src="../js/lightjs/ray.js"></script>
-  <script src="../js/lightjs/all control.js"></script>
   <link rel="icon" href="../assets/icon.svg" type="image/x-icon" />
 </head>
-
 <body>
-  <button class="back-button" onClick="window.location.href='box.html'">返回首页</button>
+  <button class="back-button" onClick="window.location.href='../index.html'">返回首页</button>
   <div class="interface">
     <div>
       <button id='hand' class='orange' onclick="
@@ -33,19 +27,10 @@
           <option value="mirror"> 镜子 </option>
           <option value="void"> 虚空 </option>
           <option value="lens"> 透镜 </option>
-        </optgroup>
-        <optgroup label="块状物体">
           <option value="circle"> 圆形 </option>
         </optgroup>
-        <optgroup label="工具">
-          <option value="ruler"> 尺子 </option>
-          <option value="d"> 量角器 </option>
-        </optgroup>
       </select>
-      <button onclick="setScale(1/1.1);" class="blue">-</button>
-      <input type="range" min="0.1" max="3" value="1" step="0.01" id="scale" oninput="setScale();">
-      <button onclick="setScale(1.1);" class="blue">+</button>
-      <input type="color" value="#FFFF80" id="color">
+      <input type="color" value="#00FF62" id="color">
       <button onclick="mouse.delete();" class="red" id="delete" disabled="true">删除</button>
       <button onclick="location.reload();" class="blue">↺</button>
       <button class="green" onclick="toggleGrid();" id="grid">网格</button>
@@ -53,6 +38,14 @@
     </div>
     <div id="menu-sub">
     </div>
+    <div class="experiment-intro">
+      <h2>实验简介与操作指南</h2>
+      <p>一：
+        光路路设计是利用光学原理来规划和控制光线在系统中的传播路径，以实现特定的功能或效果。在仿真中您可以基于光学三定律设计自己的实验</p>
+      <p>二：操作步骤 </p>       
+     <li>选择合适的工具。</li>
+     <li>进行光路的设计。</li>
+                
   </div>
 </body>
 
