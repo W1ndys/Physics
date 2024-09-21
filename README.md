@@ -1,3 +1,3 @@
-# PhysiSim
+# Physics
 
 物理仿真实验平台
